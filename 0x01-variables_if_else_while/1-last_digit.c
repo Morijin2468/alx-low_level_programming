@@ -23,7 +23,7 @@ printf("0 and is 0\n");
 }
 if (n < 6)
 {
-printf("-8 and is less than 6 and not 0\n"he);
+printf("-8 and is less than 6 and not 0\n");
 }
 printf("\n");
 return (0);
