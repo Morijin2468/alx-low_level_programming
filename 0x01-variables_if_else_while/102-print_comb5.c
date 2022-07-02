@@ -1,34 +1,34 @@
 #include <stdio.h>
 
 /**
- * main - Prints all possible combinations of two two-digit numbers,
- * ranging from 0-99, separated by a comma followed by a space.
- *
- * Return: Always 0.
+ *main -> assign a random number to the variable n each time it is executed
+ *and print the last digit of the number stored in the variable n
+ *Return: Always 0 (Success)
  */
 int main(void)
 {
-int num1, num;
+int i, j;
 
-for (num1 = 0; num1 <= 98; num1++)
+for (i = 0; i < 100; i++)
 {
-for (num2 = num1 + 1; num2 <= 99; num2++)
+for (j = 0; j < 100; j++)
 {
-putchar((num1 / 10) + '0');
-putchar((num1 % 10) + '0');
+if (i < j)
+{
+putchar((i / 10) + 48);
+putchar((i % 10) + 48);
 putchar(' ');
-putchar((num2 / 10) + '0');
-putchar((num2 % 10) + '0');
-
-if (num1 == 98 && num2 == 99)
-continue;
+putchar((j / 10) + 48);
+putchar((j % 10) + 48);
+if (i != 98 || j != 99)
+{
 putchar(',');
 putchar(' ');
 }
 }
-
+}
+}
 putchar('\n');
-
 return (0);
 }
 
