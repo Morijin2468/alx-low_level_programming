@@ -1,21 +1,4 @@
 
-profabubakar
-/
-alx-low_level_programming
-Public
-Code
-Issues
-Pull requests
-Actions
-Projects
-Wiki
-Security
-Insights
-alx-low_level_programming/0x06-pointers_arrays_strings/4-rev_array.c
-@profabubakar
-profabubakar revarray
- 1 contributor
-22 lines (20 sloc)  287 Bytes
 #include "main.h"
 
 /**
