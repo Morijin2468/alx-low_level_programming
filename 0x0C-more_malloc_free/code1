@@ -1,0 +1,189 @@
+#include "main.h"
+
+/**
+ * is_num - checks if string has non numeric values
+ *
+ * @str: string to check
+ *
+ * Return: 1 if contains non numeric values, 0 if only numeric
+ */
+
+int is_num(char *str)
+{
+	while (*str)
+	{
+		if (*str < '0' || *str > '9')
+			return (1);
+		str++;
+	}
+	return (0);
+}
+
+/**
+ * _reorder - moves integer from end of str to beginning
+ *
+ * @arr: string to change
+ * @arrSize: size of string including null byte
+ * @fillChar: character used to fill string that isn't part being moved
+ *
+ * Return: always void
+ */
+
+void _reorder(char *arr, int arrSize, char fillChar)
+{
+	int i = 0;
+	int bufferPlacer = 0;
+	while (i < arrSize)
+	{
+	if (arr[i] != fillChar)
+	{
+	arr[bufferPlacer++] = arr[i];
+	arr[i] = END;
+	}
+	else
+	arr[i] = END;
+	i++;
+	}
+}
+
+/**
+ * infinite_add - adds two numbers
+ *
+ * @n1: *char - first number
+ * @n2: *char - second number
+ * @r:  *char - buffer where result is stored
+ * @size_r: int - size of buffer
+ *
+ * Return: pointer to r
+ */
+char *infinite_add(char *n1, char *n2, char *r, int size_r)
+{
+	int tempSizeR = size_r;
+	char fill = 'd';
+	int len1 = 0, len2 = 0, result = 0, carryStore = 0;
+
+	while (*(n1 + len1) != END)
+		len1++;
+	while (*(n2 + len2) != END)
+		len2++;
+	if (len1 > size_r - 2 || len2 > size_r - 2)
+		return (0);
+	len1--, len2--;
+
+while (size_r >= 0)
+	{
+		if (size_r == tempSizeR)
+		{
+			r[size_r--] = END;
+			continue;
+		}
+		if (len1 < 0 && len2 < 0 && carryStore == 0)
+		{
+			r[size_r--] = fill;
+			continue;
+		}
+		else if (len1 < 0 && len2 < 0 && carryStore != 0)
+			result = carryStore;
+		else if (len1 < 0)
+			result = n2[len2] + carryStore - '0';
+		else if (len2 < 0)
+			result = n1[len1] + carryStore - '0';
+		else
+		{
+			result = (n1[len1] - '0') + (n2[len2] - '0') + carryStore;
+		}
+		carryStore = 0;
+		if (result > 9)
+		{
+			carryStore = 1;
+			result = result - 10;
+		}
+		len1--, len2--;
+		r[size_r--] = result + '0';
+	}
+	_reorder(r, tempSizeR, fill);
+	return (r);
+}
+
+/**
+ * set_mem - sets memory for void pointer
+ *
+ * @p: pointer to beginning of memory to set
+ * @nmemb: number of members of array
+ * @size: size of elements of array
+ * @ch: character to set memory to
+ *
+ * Return: void pointer to beginning of set memory
+ */
+void *set_mem(void *p, unsigned int nmemb, unsigned int size, char ch)
+{
+	char *cast = p;
+	unsigned int i = 0;
+
+	while (i < nmemb * size)
+		cast[i++] = ch;
+	return (p);
+}
+
+/**
+ * multiply_strings - multiplies two strings together
+ *
+ * @s1: string 1 to multiply with string 2
+ * @s2: string 2 to multiply with string 1
+ * @buff: buffer to store result in
+ * @size_b: size of buffer in bytes
+ *
+ * Return: pointer to beginning of buffer
+ */
+char *multiply_strings(char *s1, char *s2, char *buff, unsigned int size_b)
+{
+	char *smaller, *larger;
+	int i = 0, res = 0;
+
+	smaller = (strlen(s1) > strlen(s2)) ? s1 : s2;
+	larger = (smaller == s1) ? s2 : s1;
+	res =  atoi(smaller);
+	while (i < res)
+	{
+	buff = infinite_add(buff, larger, buff, size_b);
+	i++;
+	}
+	return (buff);
+}
+
+/**
+ * main - entry point for program
+ *
+ * @argc: count of arguments
+ * @argv: list of pointers to arguments
+ *
+ * Return: 0 on success, 1 on failure
+ */
+int main(int argc, char *argv[])
+{
+	unsigned int mem;
+	int i;
+
+	char *ret;
+
+	if (argc != 3)
+	{
+	printf("Error\n");
+	return (98);
+	}
+	for (i = 1; i < argc; i++)
+	{
+	if (is_num(argv[i]))
+	{
+	printf("Error\n");
+	return (98);
+	}
+	}
+	mem = strlen(argv[1]) + strlen(argv[2]) + 1;
+	ret = calloc(mem, sizeof(char));
+	if (ret == NULL)
+	return (98);
+	ret = multiply_strings(argv[1], argv[2], ret, mem);
+	printf("%s\n", ret);
+	return (0);
+}
